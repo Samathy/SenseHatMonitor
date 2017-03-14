@@ -1,0 +1,9 @@
+[Unit]
+Description=SenseHatMonitor monitors sensors on the SenseHAT
+
+[Service]
+Type=simple
+ExecStart=[PWD]
+
+[Install]
+WantedBy=multi-user.target
