@@ -1,4 +1,4 @@
-""" SenseHatMonitor - Monitors all the enviromental sensors on the Rapsberry Pi and stores them as a CSV File """
+" "" SenseHatMonitor - Monitors all the enviromental sensors on the Rapsberry Pi and stores them as a CSV File """
 """ samathy.barratt@rolls-royce.com """
 from sense_hat import SenseHat
 import time
@@ -12,6 +12,25 @@ def set_all_pixels(color, sense):
     pixels = [color]*64
 
     sense.set_pixels(pixels)
+
+def selectInterval(sense):
+    """Allow user to select a shorter, or longer intival. Returns string "long" or "short" """
+
+    while (True):
+        sense.show_message("Short", text_colour=[0,100,0])
+        event = sense.stick.wait_for_event(emptybuffer = True)
+        if (str(event.direction) == "middle"):
+            return "short"
+        else:
+            print(event)
+            event = []
+            sense.show_message("Long",text_colour=[0,100,0])
+        event = sense.stick.wait_for_event(emptybuffer = True)
+        if (str(event.direction) == "middle"):
+            print(event)
+            return "long"
+        event = []
+
 
 sense = SenseHat()
 
@@ -39,6 +58,19 @@ except:
     sense.show_message("Could not open output files", text_colour=[100.0,0])
     exit()
 
+
+
+sense.show_message("Select Interval", text_colour=[100,0,0])
+interval = selectInterval(sense)
+
+if interval == "short":
+    timeIntervalEnviroment = 1
+    timeIntervalPositions = 1
+else:
+    timeIntervalEnviroment = 4
+    timeIntervalPositions = 1
+
+
 print ("initialised files")
 
 #Let the user know everything is okay!
@@ -57,6 +89,9 @@ set_all_pixels([0,0,0], sense)    #Flash the pixels so the user knows everything
 iterator = 0
 exit = 0
 
+time.sleep(1)   #We need this here so that the main loop doesnt register the 'release' button action.
+sense.stick.clear_events()
+
 
 while(exit == 0):
 
@@ -64,9 +99,10 @@ while(exit == 0):
     set_all_pixels([0,0,0], sense)    #Flash the pixels so the user knows everything is okay.
 
     events = sense.stick.get_events()
+    print (events)
 
     for event in events:
-        if str(event.action) == "pressed" or str(event.action) == "released" or str(event.action) == "held":
+        if str(event.direction) == "middle":
             print ("Break")
             exit = 1
     if exit:
@@ -128,7 +164,8 @@ gyroscopeFile.close()
 accelerometerFile.close()
             
 sense.show_message("Click again to Shutdown", text_colour=[100,0,0])
-events sense.stick.wait_for_event()
+events = sense.stick.wait_for_event()
+
 for event in events:
     if str(event.action) == "pressed" or str(event.action) == "released" or str(event.action) == "held":
         subprocess.call(["shutdown","-h", "now", "&"])
