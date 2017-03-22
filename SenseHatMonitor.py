@@ -1,4 +1,6 @@
-" "" SenseHatMonitor - Monitors all the enviromental sensors on the Rapsberry Pi and stores them as a CSV File """
+#!/usr/bin/python2.7 
+
+""" SenseHatMonitor - Monitors all the enviromental sensors on the Rapsberry Pi and stores them as a CSV File """
 """ samathy.barratt@rolls-royce.com """
 from sense_hat import SenseHat
 import time
