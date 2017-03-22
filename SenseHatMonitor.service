@@ -3,7 +3,8 @@ Description=SenseHatMonitor monitors sensors on the SenseHAT
 
 [Service]
 Type=simple
-ExecStart=[PWD]
+User=pi
+ExecStart=/usr/local/bin/SenseHatMonitor
 
 [Install]
 WantedBy=multi-user.target

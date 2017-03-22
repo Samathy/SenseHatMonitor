@@ -12,21 +12,5 @@ if (user == None):    #Checki if the user is SUDO
 cwd = os.getcwd()
 serviceFileTemplate = open("SenseHatMonitor.service.template", "r")
 
-lines = serviceFileTemplate.readlines()
-
-serviceLines = list()
-
-for line in lines:    #Find the line that mentions the SenseHatMonitor script file
-   if "[PWD]" in line:
-        print (line)
-        serviceLines.append(line.replace("[PWD]", cwd+"SenseHatMonitor.py"))
-
-   serviceLines.append(line)
-
-serviceFile = open("SenseHatMonitor.service", "w")
-
-for line in serviceLines:    #Write new file 
-     print(line)
-     serviceFile.write(line)
-
+subprocess.call(["ln","-s",cwd+"SenseHatMonitor.py","/usr/local/bin/SenseHatMonitor"])
 subprocess.call(["cp","SenseHatMonitor.service", "/lib/systemd/system/SenseHatMonitor.service"]) 
