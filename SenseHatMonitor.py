@@ -91,9 +91,7 @@ set_all_pixels([0,0,0], sense)    #Flash the pixels so the user knows everything
 iterator = 0
 exit = 0
 
-time.sleep(1)   #We need this here so that the main loop doesnt register the 'release' button action.
-sense.stick.clear_events()
-
+sense.stick.wait_for_event()
 
 while(exit == 0):
 
