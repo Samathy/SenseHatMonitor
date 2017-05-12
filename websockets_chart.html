@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WebSocket demo</title>
+        <script src="Chart.js"></script>
+    </head>
+    <body>
+        <canvas id="chart" width = "200" height="200"></canvas>
+        <script>
+
+            function addToValues(arr, val)
+            {
+                
+                if (arr.length < 10)
+                {
+                    arr.push(val);
+                    return arr;
+                }
+                if (arr instanceof Array)
+                {
+                    var small = arr.slice(1, arr.length);
+                    small.push(val);
+                    return small;
+                }
+                else
+                {
+                    console.debug("NOT");
+                }
+            }
+                
+
+            var values = new Array(0);
+            var labels = new Array(0);
+
+            var ctx = document.getElementById('chart').getContext('2d');
+            var chart = new Chart(ctx,{
+                type:'line',
+                options: {
+                    animation: {
+                        duration: 0
+                    }
+                },
+                data: {
+                    datasets: [ {
+                        data: [],
+                        fill: false,
+                        lineTension: 0.1,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,192,0.4)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHitRadius: 10
+                    }
+                    ]
+                }
+            });
+
+            var tick = 0;
+
+            var ws = new WebSocket("ws://127.0.0.1:5678/"),
+                messages = document.createElement('ul');
+            ws.onmessage = function (event) {
+                values = addToValues(values, parseInt(event.data));
+                console.debug(values);
+                chart.data.datasets[0].data = values;
+                chart.data.labels = addToValues(labels, "".concat(new Date().getHours(), ":", new Date().getMinutes(),":", new Date().getSeconds()));
+                
+                chart.update();
+            };
+
+            
+
+
+        </script>
+    </body>
+</html>
