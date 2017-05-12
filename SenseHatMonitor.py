@@ -5,8 +5,10 @@
 from sense_hat import SenseHat
 import time
 import datetime
+import asyncio
 from os import path
 from os import fsync
+
 
 
 def set_all_pixels(color, sense):
@@ -32,6 +34,22 @@ def selectInterval(sense):
             print(event)
             return "long"
         event = []
+
+async def monitor(socket, path):
+    """Serves the accel, temp and pressure values 
+    to a websocket"""
+    while True:
+        orientation = sense.get_orientation_degrees()    #Returns {pitch:n, roll:n, yaw:n} gyro = sense.get_gyroscope_raw() #Returns {x:n, y:n, z:n}
+        accel = sense.get_accelerometer_raw()    #Returns {x:n, y:n, z:n}
+        humidity = sense.get_humidity()
+        temp  = sense.get_temperature()
+        pressure = sense.get_pressure()
+
+        await socket.send(accel)
+    
+
+
+
 
 
 sense = SenseHat()
@@ -92,6 +110,11 @@ iterator = 0
 exit = 0
 
 sense.stick.wait_for_event()
+
+
+#Run the web server and continue
+server = websockets.serve(monitor, '127.0.0.1', 5678)
+asyncio.async(server)
 
 while(exit == 0):
 
