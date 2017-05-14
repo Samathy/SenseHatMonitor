@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+
+            .flex-container
+            {
+                display: -webkit-flex;
+                display: flex;
+                width: 800px;
+                height: 800px;
+            }
+
+
+            .flex-item {
+                width: 200px;
+                height: 200px;
+                margin: 10px;
+            }
+        </style>
+
+
         <title>WebSocket demo</title>
         <script src="Chart.js"></script>
     </head>
     <body>
-	<div style="min-width: 200px; max-width:500px">
-        <canvas id="chart" width = "200" height="200"></canvas>
-        <div>
+        <div class = "flex-container">
+            <div class="flex-item">
+                <canvas id="chart_accel" width = "200" height="200"></canvas>
+            </div>
+            <div class="flex-item">
+                <canvas id="chart_ori" width = "200" height="200"></canvas>
+            </div>
+            <div class="flex-item">
+                <canvas id="chart_temp" width = "200" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class = "flex-container">
+
+        </div>
+
+    </div>
         <script>
 
             function addToValues(arr, val)
@@ -37,8 +70,14 @@
 
             var labels = new Array(0);
 
-            var ctx = document.getElementById('chart').getContext('2d');
-            var chart = new Chart(ctx,{
+            var ctx_accel = document.getElementById('chart_accel').getContext('2d');
+            var ctx_ori = document.getElementById('chart_ori').getContext('2d');
+            var ctx_temp = document.getElementById('chart_temp').getContext('2d');
+
+            var chart_ori = new Chart(ctx_ori,{type:'line'});
+            var chart_temp = new Chart(ctx_temp,{type:'line'});
+
+            var chart_accel = new Chart(ctx_accel,{
                 type:'line',
                 options: {
                     animation: {
