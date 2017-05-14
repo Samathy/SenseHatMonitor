@@ -51,7 +51,10 @@ def monitor(socket, path):
         temp  = sense.get_temperature()
         pressure = sense.get_pressure()
 
-        yield from socket.send(json.dumps(accel))
+        d = {'accel': accel, 'ori':orientation, 'humidity':humidity, 'temp':temp, 'pressure':pressure}
+
+        yield from socket.send(json.dumps(d))
+
         sleep(0.3)
     
 

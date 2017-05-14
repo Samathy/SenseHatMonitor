@@ -170,9 +170,10 @@
             var ws = new WebSocket("ws://127.0.0.1:5678/"),
                 messages = document.createElement('ul');
             ws.onmessage = function (event) {
-                accelX = addToValues(accelX, JSON.parse(event.data).x*100);
-                accelY = addToValues(accelY, JSON.parse(event.data).y*100);
-                accelZ = addToValues(accelZ, JSON.parse(event.data).z*100);
+                accelX = addToValues(accelX, JSON.parse(event.data).accel.x*100);
+                accelY = addToValues(accelY, JSON.parse(event.data).accel.y*100);
+                accelZ = addToValues(accelZ, JSON.parse(event.data).accel.z*100);
+
                 console.debug(accelX);
                 chart.data.datasets[0].data = accelX;
                 chart.data.datasets[1].data = accelY;
