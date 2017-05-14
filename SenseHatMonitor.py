@@ -6,6 +6,11 @@ from sense_hat import SenseHat
 import time
 import datetime
 import asyncio
+import websockets
+import json
+from time import sleep
+import multiprocessing
+
 from os import path
 from os import fsync
 
@@ -35,7 +40,8 @@ def selectInterval(sense):
             return "long"
         event = []
 
-async def monitor(socket, path):
+@asyncio.coroutine
+def monitor(socket, path):
     """Serves the accel, temp and pressure values 
     to a websocket"""
     while True:
@@ -45,14 +51,29 @@ async def monitor(socket, path):
         temp  = sense.get_temperature()
         pressure = sense.get_pressure()
 
-        await socket.send(accel)
+        yield from socket.send(json.dumps(accel))
+        sleep(0.3)
     
 
+def webserver():
+    print("Running webserver")
+    #Run the web server and continue
+    server_socket = websockets.serve(monitor, '127.0.0.1', 5678)
+    print (server_socket)
+    asyncio.get_event_loop().run_until_complete(server_socket)
+    asyncio.get_event_loop().run_forever()
+    print ("webserver ended")
+    
+	
 
 
 
 
 sense = SenseHat()
+
+server = multiprocessing.Process(target=webserver)
+server.start()
+
 
 #Set the IMU config (turn on Gyro, Accelerometer and Magetometer)
 #                  Compass, Gyro, Accel
@@ -112,9 +133,6 @@ exit = 0
 sense.stick.wait_for_event()
 
 
-#Run the web server and continue
-server = websockets.serve(monitor, '127.0.0.1', 5678)
-asyncio.async(server)
 
 while(exit == 0):
 

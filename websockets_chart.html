@@ -5,13 +5,15 @@
         <script src="Chart.js"></script>
     </head>
     <body>
+	<div style="min-width: 200px; max-width:500px">
         <canvas id="chart" width = "200" height="200"></canvas>
+        <div>
         <script>
 
             function addToValues(arr, val)
             {
                 
-                if (arr.length < 10)
+                if (arr.length < 100)
                 {
                     arr.push(val);
                     return arr;
@@ -29,7 +31,10 @@
             }
                 
 
-            var values = new Array(0);
+            var accelX = new Array(0);
+            var accelY= new Array(0);
+            var accelZ = new Array(0);
+
             var labels = new Array(0);
 
             var ctx = document.getElementById('chart').getContext('2d');
@@ -38,11 +43,22 @@
                 options: {
                     animation: {
                         duration: 0
-                    }
+                    },
+                    scales: {
+                        yAxes: [{
+                            type: 'linear',
+                            ticks: {
+                                min: -20,
+                                max: 20,
+                                stepSize: 5
+                            }
+                       }]
+                   }
                 },
                 data: {
                     datasets: [ {
                         data: [],
+                        label: 'X',
                         fill: false,
                         lineTension: 0.1,
                         fill: false,
@@ -59,7 +75,51 @@
                         pointHoverBackgroundColor: "rgba(75,192,192,1)",
                         pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointHoverBorderWidth: 2,
-                        pointRadius: 5,
+                        pointRadius: 1,
+                        pointHitRadius: 10
+                    },
+                    {
+                        data: [],
+                        label: 'Y',
+                        fill: false,
+                        lineTension: 0.1,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,50,192,0.4)",
+                        borderColor: "rgba(75,50,192,1)",
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(100,192,122,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10
+                    },
+		    {
+                        data: [],
+                        label: 'Z',
+                        fill: false,
+                        lineTension: 0.1,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,42,0.4)",
+                        borderColor: "rgba(75,192,42,1)",
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
                         pointHitRadius: 10
                     }
                     ]
@@ -71,9 +131,13 @@
             var ws = new WebSocket("ws://127.0.0.1:5678/"),
                 messages = document.createElement('ul');
             ws.onmessage = function (event) {
-                values = addToValues(values, parseInt(event.data));
-                console.debug(values);
-                chart.data.datasets[0].data = values;
+                accelX = addToValues(accelX, JSON.parse(event.data).x*100);
+                accelY = addToValues(accelY, JSON.parse(event.data).y*100);
+                accelZ = addToValues(accelZ, JSON.parse(event.data).z*100);
+                console.debug(accelX);
+                chart.data.datasets[0].data = accelX;
+                chart.data.datasets[1].data = accelY;
+                chart.data.datasets[2].data = accelZ;
                 chart.data.labels = addToValues(labels, "".concat(new Date().getHours(), ":", new Date().getMinutes(),":", new Date().getSeconds()));
                 
                 chart.update();
