@@ -7,15 +7,16 @@
             {
                 display: -webkit-flex;
                 display: flex;
-                width: 800px;
-                height: 800px;
+                width: 1200px;
+                height: 400px;
             }
 
 
             .flex-item {
-                width: 200px;
-                height: 200px;
-                margin: 10px;
+                width: 400px;
+                height: 400px;
+                margin-left: 10px;
+                margin-right: 10px;
             }
         </style>
 
@@ -26,17 +27,24 @@
     <body>
         <div class = "flex-container">
             <div class="flex-item">
-                <canvas id="chart_accel" width = "200" height="200"></canvas>
+                <canvas id="chart_accel" width = "400" height="400"></canvas>
             </div>
             <div class="flex-item">
-                <canvas id="chart_ori" width = "200" height="200"></canvas>
-            </div>
-            <div class="flex-item">
-                <canvas id="chart_temp" width = "200" height="200"></canvas>
+                <canvas id="chart_ori" width = "400" height="400"></canvas>
             </div>
         </div>
-
         <div class = "flex-container">
+            <div class="flex-item">
+                <canvas id="chart_temp" width = "400" height="400"></canvas>
+            </div>
+
+            <div class="flex-item">
+                <canvas id="chart_pressure" width = "400" height="400"></canvas>
+            </div>
+
+            <div class="flex-item">
+                <canvas id="chart_humidity" width = "400" height="400"></canvas>
+            </div>
 
         </div>
 
@@ -45,15 +53,16 @@
 
             function addToValues(arr, val)
             {
+                console.debug(arr);
                 
-                if (arr.length < 100)
+                if (arr.length < 30)
                 {
                     arr.push(val);
                     return arr;
                 }
                 if (arr instanceof Array)
                 {
-                    var small = arr.slice(1, arr.length);
+                    var small = arr.slice(1, arr.length)
                     small.push(val);
                     return small;
                 }
@@ -68,14 +77,27 @@
             var accelY= new Array(0);
             var accelZ = new Array(0);
 
+            var oriX = new Array(0);
+            var oriY= new Array(0);
+            var oriZ = new Array(0);
+
+            var temp = new Array(0);
+            var humidity = new Array(0);
+            var pressure = new Array(0);
+
+
             var labels = new Array(0);
 
             var ctx_accel = document.getElementById('chart_accel').getContext('2d');
             var ctx_ori = document.getElementById('chart_ori').getContext('2d');
             var ctx_temp = document.getElementById('chart_temp').getContext('2d');
+	    var ctx_pressure = document.getElementById('chart_pressure').getContext('2d');
+            var ctx_humidity = document.getElementById('chart_humidity').getContext('2d');
 
             var chart_ori = new Chart(ctx_ori,{type:'line'});
             var chart_temp = new Chart(ctx_temp,{type:'line'});
+            var chart_pressure = new Chart(ctx_temp,{type:'line'});
+            var chart_humidity = new Chart(ctx_temp,{type:'line'});
 
             var chart_accel = new Chart(ctx_accel,{
                 type:'line',
@@ -86,6 +108,10 @@
                     scales: {
                         yAxes: [{
                             type: 'linear',
+                            scaleLabel: {
+				    labelString: 'Acceleration (Intensity in Gs)',
+                                    display: true
+                            },
                             ticks: {
                                 min: -20,
                                 max: 20,
@@ -162,6 +188,239 @@
                         pointHitRadius: 10
                     }
                     ]
+                }})
+            var chart_ori = new Chart(ctx_ori,{
+                type:'line',
+                options: {
+                    animation: {
+                        duration: 0
+                    },
+                    scales: {
+                        yAxes: [{
+                            type: 'linear',
+                            scaleLabel: {
+				    labelString: 'Orientation (Degrees)',
+                                    display: true
+                            },
+                            ticks: {
+                                min: -20,
+                                max: 300,
+                                stepSize: 50
+                            }
+                       }]
+                   }
+                },
+                data: {
+                    datasets: [ {
+                        data: [],
+                        label: 'Pitch',
+                        fill: false,
+                        lineTension: 0.1,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,192,0.4)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10
+                    },
+                    {
+                        data: [],
+                        label: 'Yaw',
+                        fill: false,
+                        lineTension: 0.1,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,50,192,0.4)",
+                        borderColor: "rgba(75,50,192,1)",
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(100,192,122,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10
+                    },
+		    {
+                        data: [],
+                        label: 'Roll',
+                        fill: false,
+                        lineTension: 0.1,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,42,0.4)",
+                        borderColor: "rgba(75,192,42,1)",
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10
+                    }
+                    ]
+                }
+            });
+            var chart_temp = new Chart(ctx_temp,{
+                type:'line',
+                options: {
+                    animation: {
+                        duration: 0
+                    },
+                    scales: {
+                        yAxes: [{
+                            type: 'linear',
+                            scaleLabel: {
+				    labelString: 'Temperature (Degrees)',
+                                    display: true
+                            },
+                            ticks: {
+                                min: 0,
+                                max: 35,
+                                stepSize: 5
+                            }
+                       }]
+                   }
+                },
+                data: {
+                    datasets: [ {
+                        data: [],
+                        label: 'Temperature',
+                        fill: false,
+                        lineTension: 0.1,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,192,0.4)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10
+                    }
+                    ]
+                }
+            });
+
+            var chart_pressure = new Chart(ctx_pressure,{
+                type:'line',
+                options: {
+                    animation: {
+                        duration: 0
+                    },
+                    scales: {
+                        yAxes: [{
+                            type: 'linear',
+                            scaleLabel: {
+				    labelString: 'Pressure (Bars)',
+                                    display: true
+                            },
+                            ticks: {
+                                min: 30,
+                                max: 1500,
+                                stepSize: 100 
+                            }
+                       }]
+                   }
+                },
+                data: {
+                    datasets: [ {
+                        data: [],
+                        label: 'Pressure',
+                        fill: false,
+                        lineTension: 0.1,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,192,0.4)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10
+                    }
+                    ]
+                }
+            });
+
+            var chart_humidity = new Chart(ctx_humidity,{
+                type:'line',
+                options: {
+                    animation: {
+                        duration: 0
+                    },
+                    scales: {
+                        yAxes: [{
+                            type: 'linear',
+                            scaleLabel: {
+				    labelString: 'Humidity (Percentage)',
+                                    display: true
+                            },
+                            ticks: {
+                                min: 50,
+                                max: 100,
+                                stepSize: 15
+                            }
+                       }]
+                   }
+                },
+                data: {
+                    datasets: [ {
+                        data: [],
+                        label: 'Humidity',
+                        fill: false,
+                        lineTension: 0.1,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,192,0.4)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10
+                    }
+                    ]
                 }
             });
 
@@ -170,17 +429,56 @@
             var ws = new WebSocket("ws://127.0.0.1:5678/"),
                 messages = document.createElement('ul');
             ws.onmessage = function (event) {
-                accelX = addToValues(accelX, JSON.parse(event.data).accel.x*100);
-                accelY = addToValues(accelY, JSON.parse(event.data).accel.y*100);
-                accelZ = addToValues(accelZ, JSON.parse(event.data).accel.z*100);
 
-                console.debug(accelX);
-                chart.data.datasets[0].data = accelX;
-                chart.data.datasets[1].data = accelY;
-                chart.data.datasets[2].data = accelZ;
-                chart.data.labels = addToValues(labels, "".concat(new Date().getHours(), ":", new Date().getMinutes(),":", new Date().getSeconds()));
+
+                data = JSON.parse(event.data);
+                console.debug(event.data);
+
+                accelX = addToValues(accelX, data.accel.x);
+                accelY = addToValues(accelY, data.accel.y);
+                accelZ = addToValues(accelZ, data.accel.z);
+
+                chart_accel.data.datasets[0].data = accelX;
+                chart_accel.data.datasets[1].data = accelY;
+                chart_accel.data.datasets[2].data = accelZ;
+
+                oriX = addToValues(oriX, data.ori.pitch);
+                oriY = addToValues(oriY, data.ori.yaw);
+                oriZ = addToValues(oriZ, data.ori.roll);
+
+                chart_ori.data.datasets[0].data = oriX;
+                chart_ori.data.datasets[1].data = oriY;
+                chart_ori.data.datasets[2].data = oriZ;
+
+
+                temp = addToValues(temp, data.temp);
+                console.debug("temp"+temp);
+                chart_temp.data.datasets[0].data = temp;
+
+                pressure = addToValues(pressure, data.pressure);
+                chart_pressure.data.datasets[0].data = pressure;
+
+                humidity = addToValues(humidity, data.humidity);
+                chart_humidity.data.datasets[0].data = humidity;
+
+                chart_humidity.data.labels = addToValues(labels, "".concat(new Date().getHours(), ":", new Date().getMinutes(),":", new Date().getSeconds()));
+
+                chart_accel.data.labels = labels;
+                chart_pressure.data.labels = labels;
+                chart_temp.data.labels = labels;
+                chart_ori.data.labels = labels;
+
+
+                chart_ori.update();
+                chart_temp.update();
+                chart_pressure.update();
+                chart_accel.update();
+                chart_humidity.update();
+
                 
-                chart.update();
+
+
+
             };
 
             
