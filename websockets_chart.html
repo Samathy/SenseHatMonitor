@@ -86,6 +86,8 @@
             var chart_pressure = new Chart(ctx_temp,{type:'line'});
             var chart_humidity = new Chart(ctx_temp,{type:'line'});
 
+            Chart.defaults.global.defaultFontColor = "#269F26";
+
             var chart_accel = new Chart(ctx_accel,{
                 type:'line',
                 options: {
@@ -93,18 +95,27 @@
                         duration: 0
                     },
                     scales: {
+                       xAxes: [{
+                           gridLines: {show: true,
+                               color: "#3269A0",}
+                       }],
                         yAxes: [{
                             type: 'linear',
                             scaleLabel: {
-				    labelString: 'Acceleration (Intensity in Gs)',
-                                    display: true
+				                labelString: 'Acceleration (Intensity in Gs)',
+                                display: true
                             },
                             ticks: {
                                 min: -20,
                                 max: 20,
                                 stepSize: 5
+                            },
+                            gridLines: {show: true,
+                                color: "#3269A0"
                             }
+
                        }]
+
                    }
                 },
                 data: {
@@ -128,7 +139,8 @@
                         pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointHoverBorderWidth: 2,
                         pointRadius: 1,
-                        pointHitRadius: 10
+                        pointHitRadius: 10,
+
                     },
                     {
                         data: [],
@@ -175,8 +187,9 @@
                         pointHitRadius: 10
                     }
                     ]
-                }})
-            var chart_ori = new Chart(ctx_ori,{
+                }});
+
+            var chart_ori = new Chart(ctx_ori, {
                 type:'line',
                 options: {
                     animation: {
@@ -186,13 +199,16 @@
                         yAxes: [{
                             type: 'linear',
                             scaleLabel: {
-				    labelString: 'Orientation (Degrees)',
-                                    display: true
+				                labelString: 'Orientation (Degrees)',
+                                display: true
                             },
                             ticks: {
                                 min: -20,
                                 max: 300,
                                 stepSize: 50
+                            },
+                            gridLines: {show: true,
+                                color: "#3269A0"
                             }
                        }]
                    }
@@ -284,6 +300,9 @@
                                 min: 0,
                                 max: 35,
                                 stepSize: 5
+                            },
+                            gridLines: {show: true,
+                                color: "#3269A0"
                             }
                        }]
                    }
@@ -332,6 +351,9 @@
                                 min: 30,
                                 max: 1500,
                                 stepSize: 100 
+                            },
+                            gridLines: {show: true,
+                                color: "#3269A0"
                             }
                        }]
                    }
@@ -380,6 +402,9 @@
                                 min: 50,
                                 max: 100,
                                 stepSize: 15
+                            },
+                            gridLines: {show: true,
+                                color: "#3269A0"
                             }
                        }]
                    }
@@ -410,8 +435,6 @@
                     ]
                 }
             });
-
-            var tick = 0;
 
             var ws = new WebSocket("ws://127.0.0.1:5678/"),
                 messages = document.createElement('ul');
@@ -467,9 +490,6 @@
 
 
             };
-
-            
-
 
         </script>
     </body>
