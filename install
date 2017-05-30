@@ -11,11 +11,10 @@ if (user == None):    #Checki if the user is SUDO
 
 cwd = os.getcwd()
 
-subprocess.call(["ln","-s",cwd+"SenseHatMonitor.py","/usr/local/bin/SenseHatMonitor"])  #Create symlink for script
 subprocess.call(["cp","SenseHatMonitor.service", "/lib/systemd/system/SenseHatMonitor.service"]) #Copy the service file
 subprocess.call(["cp","startx.service", "/lib/systemd/system/startx.service"]) #Copy the service file
 subprocess.call(["chmod", "777", "/dev/fb0"])    #Allow a non-root user to start an X server
-subprocess.call(["cp", ".xinitrc", "/home/"+str(os.getenv("USER"))+"/"])	#Copy our .xinitrc to the home dir of this user
+subprocess.call(["cp", ".xinitrc", "../.xinitrc"])	#Copy our .xinitrc to the home dir of this user
 
 subprocess.call(["systemctl", "enable", "SenseHatMonitor.service"])
 subprocess.call(["systemctl", "enable", "startx.service"])
