@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7 
+#!/usr/bin/python3
 
 """ SenseHatMonitor - Monitors all the enviromental sensors on the Rapsberry Pi and stores them as a CSV File """
 """ samathy.barratt@rolls-royce.com """
