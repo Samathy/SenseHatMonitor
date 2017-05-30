@@ -87,7 +87,7 @@ timeIntervalEnviroment = 4
 #Wait this many seconds before taking another reading of the gyro, accel and compass
 timeIntervialPositions = 1
 
-outputFilePath = "/mnt/usb0/"    #The location to put the datafiles. We have usbmount so this should be the default first memorystick
+outputFilePath = "/media/usb0/"    #The location to put the datafiles. We have usbmount so this should be the default first memorystick
 
 #Get the date and time - useful for uniquly naming files.
 dateTime = str(datetime.datetime.now())
