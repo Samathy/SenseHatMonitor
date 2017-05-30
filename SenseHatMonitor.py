@@ -87,10 +87,14 @@ timeIntervalEnviroment = 4
 #Wait this many seconds before taking another reading of the gyro, accel and compass
 timeIntervialPositions = 1
 
-outputFilePath = "/mnt/FAT/"    #The location to put the datafiles
+outputFilePath = "/mnt/usb0/"    #The location to put the datafiles. We have usbmount so this should be the default first memorystick
 
 #Get the date and time - useful for uniquly naming files.
 dateTime = str(datetime.datetime.now())
+
+from subprocess import call
+call(["mkdir", outputFilePath+"/SenseHatMonitor/"]) #Try to make a directory to store the files. if already exists, isnt a problem
+
 
 try:
     enviromentFile = open(outputFilePath+"enviroment_"+dateTime.replace(" ", "_").replace(":","_")+".csv", "w+")
