@@ -1,0 +1,10 @@
+[Unit]
+Description="startx"
+WantedBy=getty@tty1.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/startx /home/rruk/.xinitrc
+
+[Install]
+WantedBy=getty@tty1.service
