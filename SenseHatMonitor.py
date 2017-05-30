@@ -93,8 +93,8 @@ outputFilePath = "/media/usb0/"    #The location to put the datafiles. We have u
 dateTime = str(datetime.datetime.now())
 
 from subprocess import call
-call(["mkdir", outputFilePath+"/SenseHatMonitor/"]) #Try to make a directory to store the files. if already exists, isnt a problem
-outputFilePath = outputFilePath+"/SenseHatMonitor/"
+call(["mkdir", outputFilePath+"SenseHatMonitor/"]) #Try to make a directory to store the files. if already exists, isnt a problem
+outputFilePath = outputFilePath+"SenseHatMonitor/"
 
 
 try:
