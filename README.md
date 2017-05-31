@@ -3,9 +3,7 @@ Code for the STEM Digital project at Rolls-Royce PLC. Monitors all sensors on a 
 
 This project aims to regually gather data from the sensors on a SenseHAT and deposit that data into a CSV file for layer analysis.
 
-
-
-#Installation Instructions (Less Technical)
+# Installation Instructions (Less Technical)
 
 To install directly to an 8GB (or larger) Micro SD card:
 
@@ -15,7 +13,7 @@ To install directly to an 8GB (or larger) Micro SD card:
  4: Insert the Raspberry Pi SD Card into your machine and utilise the tool you downloaded to copy the image 'SenseHatPi_8GB_Image.img' to the SD card.
  5: Insert the SD card back into the Pi and check that it works!
 
-#Raspbian Installation instructions (Technical)
+# Raspbian Installation instructions (Technical)
 
 ## Requirements
 
@@ -36,7 +34,7 @@ Pip
 Other
  * chartjs (wget https://github.com/chartjs/Chart.js/releases/download/v2.6.0/Chart.js)
 
-##Install
+## Install
 
 Install the latest Raspbian on your Pi; update and log in.
 
