@@ -3,7 +3,23 @@ Code for the STEM Digital project at Rolls-Royce PLC. Monitors all sensors on a 
 
 This project aims to regually gather data from the sensors on a SenseHAT and deposit that data into a CSV file for layer analysis.
 
-# Requirements
+
+Other
+ * chartjs (wget https://github.com/chartjs/Chart.js/releases/download/v2.6.0/Chart.js)
+
+#Installation Instructions (Less Technical)
+
+To install directly to an 8GB (or larger) Micro SD card:
+
+ 1: Download the SD card image archive from [this Mega location](https://mega.nz/#!KNUxSYaK!3izo3SfoDxCJIo9C3ZNjU9sjYg2Y9o_P_UHxeqfhndE)
+ 2: Download an appropriate disk imagiging tool for your OS ([Etcher](http://etcher.io/) or [win32Disk Imager](http://www.raspberry-projects.com/pi/pi-operating-systems/win32diskimager) on Windows. See ['Copying the image to the SD Card'](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md) for Linux)
+ 3: Unzip the SD Card image archive and move inside the folder
+ 4: Insert the Raspberry Pi SD Card into your machine and utilise the tool you downloaded to copy the image 'SenseHatPi_8GB_Image.img' to the SD card.
+ 5: Insert the SD card back into the Pi and check that it works!
+
+#Raspbian Installation instructions (Technical)
+
+## Requirements
 
 (All below are Rasbian packages)
 
@@ -19,11 +35,7 @@ This project aims to regually gather data from the sensors on a SenseHAT and dep
 Pip
  * Python3 websockets
 
-Other
- * chartjs (wget https://github.com/chartjs/Chart.js/releases/download/v2.6.0/Chart.js)
-
-
-#Raspbian Installation instructions (Technical)
+##Install
 
 Install the latest Raspbian on your Pi; update and log in.
 
