@@ -77,6 +77,7 @@ sense = SenseHat()
 server = multiprocessing.Process(target=webserver)
 server.start()
 
+nowrite = False #If we can't open the output files, don't try to write them.
 
 #Set the IMU config (turn on Gyro, Accelerometer and Magetometer)
 #                  Compass, Gyro, Accel
@@ -105,6 +106,7 @@ try:
 except:
     print ("Could not open output files")
     sense.show_message("Could not open output files", text_colour=[100.0,0])
+    nowrite = True
     exit()
 
 
@@ -126,10 +128,11 @@ print ("initialised files")
 
 set_all_pixels([0,150,0], sense)
 
-enviromentFile.write("humidity, temperature, pressure\n")
-orientationFile.write("pitch, rolls, yaw\n")
-gyroscopeFile.write("x, y, z\n")
-accelerometerFile.write("x, y, z\n")
+if not nowrite:
+    enviromentFile.write("humidity, temperature, pressure\n")
+    orientationFile.write("pitch, rolls, yaw\n")
+    gyroscopeFile.write("x, y, z\n")
+    accelerometerFile.write("x, y, z\n")
 
 print ("Wrote initial column headers")
 
@@ -171,21 +174,22 @@ while(exit == 0):
     gyro = sense.get_gyroscope_raw() #Returns {x:n, y:n, z:n}
     accel = sense.get_accelerometer_raw()    #Returns {x:n, y:n, z:n}
 
-    enviromentFile.write(str(humidity)+", "+str(temp)+", "+str(pressure)+"\n")
-    orientationFile.write(str(orientation['pitch'])+", "+ str(orientation['roll'])+", "+str(orientation['yaw'])+"\n")
-    gyroscopeFile.write(str(gyro['x'])+", "+str(gyro['y'])+", "+str(gyro['z'])+"\n")
-    accelerometerFile.write(str(accel['x'])+", "+str(accel['y'])+", "+str(accel['z'])+"\n")
+    if not nowrite:
+        enviromentFile.write(str(humidity)+", "+str(temp)+", "+str(pressure)+"\n")
+        orientationFile.write(str(orientation['pitch'])+", "+ str(orientation['roll'])+", "+str(orientation['yaw'])+"\n")
+        gyroscopeFile.write(str(gyro['x'])+", "+str(gyro['y'])+", "+str(gyro['z'])+"\n")
+        accelerometerFile.write(str(accel['x'])+", "+str(accel['y'])+", "+str(accel['z'])+"\n")
 
-    #The Pi might be turned off at any time. So make sure to flush the data to disk
-    enviromentFile.flush()
-    orientationFile.flush()
-    gyroscopeFile.flush()
-    accelerometerFile.flush()
+        #The Pi might be turned off at any time. So make sure to flush the data to disk
+        enviromentFile.flush()
+        orientationFile.flush()
+        gyroscopeFile.flush()
+        accelerometerFile.flush()
 
-    fsync(enviromentFile)
-    fsync(orientationFile)
-    fsync(gyroscopeFile)
-    fsync(accelerometerFile)
+        fsync(enviromentFile)
+        fsync(orientationFile)
+        fsync(gyroscopeFile)
+        fsync(accelerometerFile)
             
 
     time.sleep(timeIntervalEnviroment/2)
@@ -198,19 +202,20 @@ print ("Quitting")
 
 set_all_pixels([0,0,0], sense)    #Flash the pixels so the user knows everything is okay.
 
-enviromentFile.flush()
-orientationFile.flush()
-gyroscopeFile.flush()
-accelerometerFile.flush()
+if not nowrite:
+    enviromentFile.flush()
+    orientationFile.flush()
+    gyroscopeFile.flush()
+    accelerometerFile.flush()
 
-fsync(enviromentFile)
-fsync(orientationFile)
-fsync(gyroscopeFile)
+    fsync(enviromentFile)
+    fsync(orientationFile)
+    fsync(gyroscopeFile)
 
-enviromentFile.close()
-orientationFile.close()
-gyroscopeFile.close()
-accelerometerFile.close()
+    enviromentFile.close()
+    orientationFile.close()
+    gyroscopeFile.close()
+    accelerometerFile.close()
             
 sense.show_message("Click again to Shutdown", text_colour=[100,0,0])
 events = sense.stick.wait_for_event()
