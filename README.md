@@ -4,8 +4,6 @@ Code for the STEM Digital project at Rolls-Royce PLC. Monitors all sensors on a 
 This project aims to regually gather data from the sensors on a SenseHAT and deposit that data into a CSV file for layer analysis.
 
 
-Other
- * chartjs (wget https://github.com/chartjs/Chart.js/releases/download/v2.6.0/Chart.js)
 
 #Installation Instructions (Less Technical)
 
@@ -34,6 +32,9 @@ To install directly to an 8GB (or larger) Micro SD card:
 
 Pip
  * Python3 websockets
+
+Other
+ * chartjs (wget https://github.com/chartjs/Chart.js/releases/download/v2.6.0/Chart.js)
 
 ##Install
 
