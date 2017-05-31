@@ -7,10 +7,14 @@ This project aims to regually gather data from the sensors on a SenseHAT and dep
 
 To install directly to an 8GB (or larger) Micro SD card:
 
- 1: Download the SD card image archive from [this Mega location](https://mega.nz/#!KNUxSYaK!3izo3SfoDxCJIo9C3ZNjU9sjYg2Y9o_P_UHxeqfhndE)
- 2: Download an appropriate disk imagiging tool for your OS ([Etcher](http://etcher.io/) or [win32Disk Imager](http://www.raspberry-projects.com/pi/pi-operating-systems/win32diskimager) on Windows. See ['Copying the image to the SD Card'](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md) for Linux)
- 3: Unzip the SD Card image archive and move inside the folder
+ 1: Download the SD card image archive from [this Mega location](https://mega.nz/#!KNUxSYaK!3izo3SfoDxCJIo9C3ZNjU9sjYg2Y9o_P_UHxeqfhndE).
+
+ 2: Download an appropriate disk imagiging tool for your OS ([Etcher](http://etcher.io/) or [win32Disk Imager](http://www.raspberry-projects.com/pi/pi-operating-systems/win32diskimager) on Windows. See ['Copying the image to the SD Card'](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md) for Linux).
+
+ 3: Unzip the SD Card image archive and move inside the folder.
+
  4: Insert the Raspberry Pi SD Card into your machine and utilise the tool you downloaded to copy the image 'SenseHatPi_8GB_Image.img' to the SD card.
+
  5: Insert the SD card back into the Pi and check that it works!
 
 # Raspbian Installation instructions (Technical)
