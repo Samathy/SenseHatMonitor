@@ -23,7 +23,9 @@ Other
  * chartjs (wget https://github.com/chartjs/Chart.js/releases/download/v2.6.0/Chart.js)
 
 
-#Installation instructions
+#Raspbian Installation instructions (Technical)
+
+Install the latest Raspbian on your Pi; update and log in.
 
  1: Clone this repo into the home of the 'pi' user. To use another user, replace
     any instances of 'pi' in the source files with your given user.
